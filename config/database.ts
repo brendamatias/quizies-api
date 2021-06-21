@@ -4,8 +4,6 @@ import Env from '@ioc:Adonis/Core/Env';
 import { DatabaseConfig } from '@ioc:Adonis/Lucid/Database';
 import { OrmConfig } from '@ioc:Adonis/Lucid/Orm';
 
-let DB_DATABASE_URL = '';
-
 const dbConfig = {
   host: Env.get('PG_HOST'),
   port: Env.get('PG_PORT'),
@@ -15,7 +13,7 @@ const dbConfig = {
 };
 
 if (Env.get('DATABASE_URL')) {
-  DB_DATABASE_URL = new Url(Env.get('DATABASE_URL'));
+  const DB_DATABASE_URL = new Url(Env.get('DATABASE_URL'));
 
   if (DB_DATABASE_URL) {
     dbConfig.host = DB_DATABASE_URL.host;
