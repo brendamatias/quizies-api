@@ -16,8 +16,10 @@ if (Env.get('DATABASE_URL')) {
   const DB_DATABASE_URL = new Url(Env.get('DATABASE_URL'));
 
   if (DB_DATABASE_URL) {
-    dbConfig.host = DB_DATABASE_URL.host;
-    dbConfig.port = Number('');
+    const [host, port] = DB_DATABASE_URL.host.split(':');
+
+    dbConfig.host = host;
+    dbConfig.port = port;
     dbConfig.user = DB_DATABASE_URL.username;
     dbConfig.password = DB_DATABASE_URL.password;
     dbConfig.database = DB_DATABASE_URL.pathname.substr(1);
@@ -36,6 +38,9 @@ const databaseConfig: DatabaseConfig & { orm: Partial<OrmConfig> } = {
         user: dbConfig.user,
         password: dbConfig.password,
         database: dbConfig.database,
+        ssl: {
+          rejectUnauthorized: false,
+        },
       },
       healthCheck: false,
       debug: false,
