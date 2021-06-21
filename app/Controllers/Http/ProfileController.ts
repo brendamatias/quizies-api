@@ -1,7 +1,5 @@
 import User from 'App/Models/User';
 
-import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
-
 export default class UsersController {
   public async show({ auth }) {
     const user = await User.find(auth.user.id);
