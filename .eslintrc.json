@@ -20,6 +20,7 @@
     "prettier/prettier": "error",
     "camelcase": "off",
     "import/no-unresolved": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/naming-convention": [
       "error",
       {

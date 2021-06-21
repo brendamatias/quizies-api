@@ -31,5 +31,9 @@ Route.group(() => {
   Route.group(() => {
     Route.get('/profile', 'ProfileController.show');
     Route.put('/profile', 'ProfileController.update');
+
+    Route.get('/quizzes', 'QuizzesController.index');
+    Route.post('/quizzes/questions', 'QuizQuestionsController.store');
+    Route.get('/quizzes/:quiz_id/questions', 'QuizQuestionsController.show');
   }).middleware('auth');
 }).prefix('/v1');
