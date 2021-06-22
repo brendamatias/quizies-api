@@ -11,22 +11,16 @@ export default class QuizzesController {
       .withCount('quizQuestions')
       .paginate(page, limit);
 
-    const { perPage, currentPage, firstPage, total, lastPage, rows } = quizzes;
+    const { perPage, currentPage, firstPage, total, lastPage } = quizzes;
 
-    const data = rows.map(quiz => {
+    const data = quizzes.toJSON().data.map(quiz => {
       const currentQuiz = quiz.toJSON();
-      currentQuiz.questions = quiz.$extras.quizQuestions_count;
+      currentQuiz.totalQuestions = quiz.$extras.quizQuestions_count;
       return currentQuiz;
     });
 
     return {
-      pagination: {
-        perPage,
-        currentPage,
-        firstPage,
-        total,
-        lastPage,
-      },
+      pagination: { perPage, currentPage, firstPage, total, lastPage },
       data,
     };
   }
