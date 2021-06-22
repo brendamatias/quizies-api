@@ -1,7 +1,15 @@
 import { DateTime } from 'luxon';
 import { v4 as uuid } from 'uuid';
 
-import { BaseModel, column, beforeCreate } from '@ioc:Adonis/Lucid/Orm';
+import {
+  BaseModel,
+  column,
+  beforeCreate,
+  belongsTo,
+  BelongsTo,
+} from '@ioc:Adonis/Lucid/Orm';
+
+import Quiz from './Quiz';
 
 export default class QuizQuestion extends BaseModel {
   @column({ isPrimary: true })
@@ -19,13 +27,16 @@ export default class QuizQuestion extends BaseModel {
   public options: string;
 
   @column()
-  public correct_option: string;
+  public correctOption: string;
 
   @column()
-  public image_path: string;
+  public imagePath: string;
 
   @column()
-  public quiz_id: string;
+  public quizId: string;
+
+  @belongsTo(() => Quiz)
+  public quiz: BelongsTo<typeof Quiz>;
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime;

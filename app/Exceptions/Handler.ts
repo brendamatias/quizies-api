@@ -10,12 +10,15 @@ export default class ExceptionHandler extends HttpExceptionHandler {
     if (error.name === 'CustomException') {
       return response
         .status(error.status)
-        .send({ error: { message: error.message } });
+        .send({ error: { code: error.code, message: error.message } });
     }
+
+    const message = 'Estamos com problema agora, tente novamente mais tarde';
 
     return response.status(error.status || 500).send({
       error: {
-        message: 'Estamos com problema agora, tente novamente mais tarde',
+        code: error.code,
+        message,
       },
     });
   }

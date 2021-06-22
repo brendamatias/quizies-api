@@ -24,7 +24,7 @@ export default class Quiz extends BaseModel {
   public name: string;
 
   @hasMany(() => QuizQuestion)
-  public questions: HasMany<typeof QuizQuestion>;
+  public quizQuestions: HasMany<typeof QuizQuestion>;
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime;

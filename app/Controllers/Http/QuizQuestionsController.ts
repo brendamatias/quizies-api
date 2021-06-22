@@ -16,13 +16,17 @@ export default class QuizQuestionsController {
 
   public async store({ auth, request }: HttpContextContract) {
     if (auth.user?.email !== 'brendamatias.sobral@gmail.com') {
-      throw new CustomException(401, 'Usuário não autorizado');
+      throw new CustomException(
+        'Usuário não autorizado',
+        401,
+        'E_UNAUTHORIZED_ACCESS',
+      );
     }
 
     const file = request.file('questions');
 
     if (!file) {
-      throw new CustomException(400, 'Arquivo é obrigatório');
+      throw new CustomException('Arquivo é obrigatório', 400, 'MISSING_FILES');
     }
 
     const errors = await CreateQuestions(file);

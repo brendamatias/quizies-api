@@ -10,7 +10,11 @@ function readFile(file) {
 
     return xlsx.utils.sheet_to_csv(workbook.Sheets[sheetNames[0]]);
   } catch (err) {
-    throw new CustomException(400, 'Arquivo corrompido ou ilegível');
+    throw new CustomException(
+      'Arquivo corrompido ou ilegível',
+      400,
+      'CORRUPTED_FILE',
+    );
   }
 }
 

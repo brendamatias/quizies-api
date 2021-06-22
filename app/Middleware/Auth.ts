@@ -1,4 +1,5 @@
-import { AuthenticationException } from '@adonisjs/auth/build/standalone';
+import CustomException from 'App/Exceptions/CustomException';
+
 import { GuardsList } from '@ioc:Adonis/Addons/Auth';
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 
@@ -7,41 +8,25 @@ export default class AuthMiddleware {
     auth: HttpContextContract['auth'],
     guards: (keyof GuardsList)[],
   ) {
-    let guardLastAttempted: string | undefined;
+    const guard = guards[0];
 
-    for (const guard of guards) {
-      guardLastAttempted = guard;
-
-      if (await auth.use(guard).check()) {
-        /**
-         * Instruct auth to use the given guard as the default guard for
-         * the rest of the request, since the user authenticated
-         * succeeded here
-         */
-        auth.defaultGuard = guard;
-        return true;
-      }
+    if (await auth.use(guard).check()) {
+      auth.defaultGuard = guard;
+      return true;
     }
 
-    throw new AuthenticationException(
-      'Unauthorized access',
+    throw new CustomException(
+      'Usuário não autorizado',
+      401,
       'E_UNAUTHORIZED_ACCESS',
-      guardLastAttempted,
     );
   }
 
-  /**
-   * Handle request
-   */
   public async handle(
     { auth }: HttpContextContract,
     next: () => Promise<void>,
     customGuards: (keyof GuardsList)[],
   ) {
-    /**
-     * Uses the user defined guards or the default guard mentioned in
-     * the config file
-     */
     const guards = customGuards.length ? customGuards : [auth.name];
     await this.authenticate(auth, guards);
     await next();

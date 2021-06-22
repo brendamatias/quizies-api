@@ -14,7 +14,11 @@ export default class UsersController {
     const userExists = await User.findBy('email', email);
 
     if (userExists) {
-      throw new CustomException(401, 'Email já cadastrado');
+      throw new CustomException(
+        'Email já cadastrado',
+        400,
+        'USER_ALREADY_REGISTERED',
+      );
     }
 
     const user = await User.create({ name, email, password });
