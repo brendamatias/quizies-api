@@ -15,7 +15,7 @@ export default class QuizzesController {
 
     const data = quizzes.toJSON().data.map(quiz => {
       const currentQuiz = quiz.toJSON();
-      currentQuiz.totalQuestions = quiz.$extras.quizQuestions_count;
+      currentQuiz.total_questions = quiz.$extras.quizQuestions_count;
       return currentQuiz;
     });
 
