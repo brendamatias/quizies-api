@@ -5,15 +5,6 @@ const hashConfig: HashConfig = {
   default: Env.get('HASH_DRIVER', 'bcrypt'),
 
   list: {
-    argon: {
-      driver: 'argon2',
-      variant: 'id',
-      iterations: 3,
-      memory: 4096,
-      parallelism: 1,
-      saltSize: 16,
-    },
-
     bcrypt: {
       driver: 'bcrypt',
       rounds: 10,
