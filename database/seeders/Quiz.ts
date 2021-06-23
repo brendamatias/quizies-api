@@ -9,6 +9,10 @@ export default class QuizSeeder extends BaseSeeder {
       'Modern Family',
       'Friends',
       'How I Meet Your Mother',
+      'Stranger Things',
+      'Riverdale',
+      'Sex Education',
+      'Pretty Little Liars',
     ];
 
     await Promise.all(

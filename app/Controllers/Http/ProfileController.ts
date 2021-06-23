@@ -1,3 +1,4 @@
+import CustomException from 'App/Exceptions/CustomException';
 import User from 'App/Models/User';
 
 export default class UsersController {
@@ -15,7 +16,7 @@ export default class UsersController {
       const userExists = await User.findBy('email', email);
 
       if (userExists) {
-        throw new Error('Email já cadastrado');
+        throw new CustomException('Email já cadastrado', 400, 'USER_EXIST');
       }
     }
 
