@@ -35,5 +35,8 @@ Route.group(() => {
     Route.get('/quizzes', 'QuizzesController.index');
     Route.post('/quizzes/questions', 'QuizQuestionsController.store');
     Route.get('/quizzes/:quiz_id/questions', 'QuizQuestionsController.show');
+
+    Route.get('/scores', 'ScoresController.index');
+    Route.post('/scores', 'ScoresController.store');
   }).middleware('auth');
 }).prefix('/v1');

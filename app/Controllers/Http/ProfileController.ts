@@ -3,12 +3,37 @@ import User from 'App/Models/User';
 import ProfileValidator from 'App/Validators/ProfileValidator';
 
 import Hash from '@ioc:Adonis/Core/Hash';
+import Database from '@ioc:Adonis/Lucid/Database';
 
 export default class UsersController {
   public async show({ auth }) {
-    const user = await User.find(auth.user.id);
+    const user = await Database.from('users')
+      .select([
+        'users.id',
+        'users.name',
+        Database.raw(
+          `(SELECT sum(score) FROM scores WHERE user_id = '${auth.user.id}') as score`,
+        ),
+      ])
+      .where('users.id', auth.user.id)
+      .first();
 
-    return { id: user?.id, name: user?.name, email: user?.email };
+    const ranking = await Database.rawQuery(`
+      SELECT id, sum FROM
+      (SELECT users.id, SUM(score) AS sum FROM scores
+       left join users on users.id = scores.user_id
+       group by users.id) score
+      WHERE sum >= ${user.score}
+      ORDER BY sum;
+    `);
+
+    const position = ranking.rows.findIndex(
+      element => element.id === auth.user.id,
+    );
+
+    user.position = position + 1;
+
+    return user;
   }
 
   public async update({ auth, request, response }) {
